@@ -1,25 +1,21 @@
 #!/bin/bash
 
-LABEL=$1
-PROXY=$2
-
 #COUNT="65535"
 COUNT="100"
-
-APP_SERVER="http://127.0.0.1:8080/"
-PROXY="http://66.6.46.134/"
-
-if [ "x$2" == "x" ]
-then
-        TARGET=$APP_SERVER
-else
-        TARGET=$PROXY
-fi
-
-
 DATA_DIR="/tmp/"
 HTML="$DATA_DIR/$LABEL.html"
 SUFFIX="plotdata"
+
+TARGET=$1
+
+if [ "x$2" == "x" ]
+then
+  TARGET_PATH='/'
+else
+  TARGET_PATH=$2
+fi
+
+TARGET="http://${TARGET}${TARGET_PATH}"
 
 function make_plot () {
         echo "set terminal png"
@@ -55,8 +51,7 @@ fi
 echo "================================================================================"
 echo "<html>" > $HTML
 
-#for i in 1 2 4 8 16 32 64 128 256 512 1024
-for i in 1
+for i in 1 2 4 8 16 32 64 128 256 512 1024
 do
         ARGS="-n $COUNT -c $i -g ${DATA_DIR}/${LABEL}-${i}.${SUFFIX}"
 
@@ -72,8 +67,7 @@ done
 echo "</html>" >> $HTML
 echo "================================================================================"
 
-#for i in 1 2 4 8 16 32 64 128 256 512 1024
-for i in 1
+for i in 1 2 4 8 16 32 64 128 256 512 1024
 do
         make_plot "${DATA_DIR}/${LABEL}-${i}.${SUFFIX}" | gnuplot
 done
