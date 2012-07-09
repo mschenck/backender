@@ -1,7 +1,3 @@
-#include <event2/event.h>
-#include <event2/http.h>
-#include <event2/buffer.h>
-#include <event2/http_struct.h>
 #include "socket.h"
 #include "routes.h"
 #include "constants.h"
@@ -20,7 +16,9 @@ run_server(char* ip, short port, int timeout_s, int backlog) {
   struct event_config         *ev_cfg;
   struct evhttp               *ev_httpd;
   evutil_socket_t             socket_fd;
-  
+
+  openlog("Backend", LOG_PID|LOG_NDELAY, LOG_LOCAL0);  
+
   ev_cfg = event_config_new();
   //event_config_set_flag(ev_cfg, EV_TIMEOUT|EV_PERSIST);
   ev_base = event_base_new_with_config(ev_cfg);
@@ -33,7 +31,7 @@ run_server(char* ip, short port, int timeout_s, int backlog) {
   // Set up httpd interface event
   ev_httpd = evhttp_new(ev_base);
   evhttp_set_timeout(ev_httpd, timeout_s);
-  routes(ev_httpd);
+  routes(ev_httpd, ev_base);
 
   socket_fd = create_socket(ip, port, timeout_s, backlog);
   evhttp_accept_socket(ev_httpd, socket_fd);
@@ -47,7 +45,8 @@ run_server(char* ip, short port, int timeout_s, int backlog) {
       exit(0);
     }
   }
-  
+
+  closelog();
   return 0;
 }
 

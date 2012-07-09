@@ -8,6 +8,7 @@ main(int argc, char **argv) {
   int   listen_port = PORT;
   int   timeout_s = TIMEOUT;
   int   backlog = BACKLOG;
+  int   exit_code;
   
   return run_server(listen_ip, listen_port, timeout_s, backlog);
 }

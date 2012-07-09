@@ -1,29 +1,27 @@
 #include <stdlib.h>
 #include <fcntl.h>
-#include <time.h>
 
 int
-random_latency ( int base, int range ) {
-  int random_int;
+random_latency ( int range ) {
+  int random_fd, random_data, randomer;
+
+  // Start time-based random
   srand( time(NULL) );
 
-  int random_fd = open( "/dev/urandom", O_RDONLY );
-  read( random_fd, &random_int, sizeof random_int );
+  // Get file-based random
+  random_fd = open( "/dev/urandom", O_RDONLY );
+  read( random_fd, &random_data, sizeof random_data );
   close( random_fd );
 
-  return ( ( abs( random_int ) * abs( rand() ) ) % range ) + base;
-}
-
-void
-incur_latency ( int latency ) {
-  struct timespec * remaining;
-  struct timespec pause = { 0, ( latency * 1000000 ) };
-  int results = nanosleep( &pause, remaining );
+  randomer = random_data * rand();
+  return abs(randomer % range);
 }
 
 void
 generate_latency ( int base, int range ) {
-  int latency = random_latency( base, range );
-  incur_latency( latency );
+  int latency = random_latency( range ) + base; 
+  struct timespec *remaining;
+  struct timespec pause = { 0, ( latency * 1000000 ) };
+  nanosleep( &pause, remaining );
 }
 

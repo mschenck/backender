@@ -1,3 +1,8 @@
+#include <event2/event.h>
+#include <event2/http.h>
+#include <event2/buffer.h>
+#include <event2/http_struct.h>
+#include <syslog.h>
 #include "httpd.c"
 
 int run_server(char* ip, short port, int timeout_s, int backlog);
