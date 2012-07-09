@@ -1,0 +1,77 @@
+#!/bin/bash
+
+LABEL=$1
+PROXY=$2
+
+#COUNT="65535"
+COUNT="16384"
+
+APP_SERVER="http://172.16.112.9:8080/"
+PROXY="http://66.6.46.134/"
+
+if [ "x$2" == "x" ]
+then
+        TARGET=$APP_SERVER
+else
+        TARGET=$PROXY
+fi
+
+DATA_DIR="/tmp/"
+HTML="$DATA_DIR/$LABEL.html"
+SUFFIX="plotdata"
+
+function make_plot () {
+        echo "set terminal png"
+        echo "set output \"$1.png\""
+        echo "set xlabel \"Request\""
+        echo "set ylabel \"ms\""
+        echo "plot \"$1\" using 10 with lines title \"Response time\""
+}
+
+function graph2html () {
+        for i in $@
+        do
+                src=$(basename $i)
+                header=$(echo $src | awk -F. '{print $1}')
+                echo "<p><h1>$header</h1> <img src='$src'> </p>" >> $HTML
+        done
+}
+
+
+if [ ! -d "${DATA_DIR}" ]
+then
+        mkdir -p "${DATA_DIR}"
+fi
+
+if [ "x$1" != "x" ]
+then 
+        KEEP_ALIVE=""
+else
+        KEEP_ALIVE="ON"
+fi
+
+
+echo "================================================================================"
+echo "<html>" > $HTML
+
+#for i in 1 2 4 8 16 32 64 128 256 512 1024
+for i in 8
+do
+        ARGS="-n $COUNT -c $i -g ${DATA_DIR}/${LABEL}-${i}.${SUFFIX}"
+
+        if [ "x$KEEP_ALIVE" == "xON" ]
+        then
+                ARGS="-k $ARGS"
+        fi
+
+        ab $ARGS $TARGET
+        graph2html "$DATA_DIR/$LABEL-${i}.${SUFFIX}.png"
+done
+
+echo "</html>" >> $HTML
+echo "================================================================================"
+
+for i in 1 2 4 8 16 32 64 128 256 512 1024
+do
+        make_plot "${DATA_DIR}/${LABEL}-${i}.${SUFFIX}" | gnuplot
+done
