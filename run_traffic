@@ -3,10 +3,10 @@
 #COUNT="65535"
 COUNT="100"
 DATA_DIR="/tmp/"
-HTML="$DATA_DIR/$LABEL.html"
 SUFFIX="plotdata"
 
 TARGET=$1
+LABEL=$( echo $TARGET | sed -e 's/\./-/g' )
 
 if [ "x$2" == "x" ]
 then
@@ -14,6 +14,8 @@ then
 else
   TARGET_PATH=$2
 fi
+
+HTML="$DATA_DIR/$LABEL.html"
 
 TARGET="http://${TARGET}${TARGET_PATH}"
 
