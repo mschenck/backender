@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #COUNT="65535"
-COUNT="100"
+COUNT="16384"
 DATA_DIR="/tmp/"
 SUFFIX="plotdata"
 
