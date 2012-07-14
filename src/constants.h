@@ -4,7 +4,7 @@
 #define HTML_CONTENT "text/html"
 #define JSON_CONTENT "text/json"
 
-#define WORKERS 8
+#define WORKERS 2
 #define PORT 8080
 
 #define BACKLOG 512

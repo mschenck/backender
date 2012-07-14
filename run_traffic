@@ -1,7 +1,12 @@
 #!/bin/bash
 
+ulimit -n 16384
+
+RUNS="1 2 4 8 16 32 64 128 256 512 1024"
+RUNS="256 512 1024 2048"
+
 #COUNT="65535"
-COUNT="16384"
+COUNT="8192"
 DATA_DIR="/tmp/"
 SUFFIX="plotdata"
 
@@ -53,7 +58,7 @@ fi
 echo "================================================================================"
 echo "<html>" > $HTML
 
-for i in 1 2 4 8 16 32 64 128 256 512 1024
+for i in $RUNS
 do
         ARGS="-n $COUNT -c $i -g ${DATA_DIR}/${LABEL}-${i}.${SUFFIX}"
 
@@ -64,12 +69,14 @@ do
 
         ab $ARGS $TARGET
         graph2html "$DATA_DIR/$LABEL-${i}.${SUFFIX}.png"
+
+        sleep 30
 done
 
 echo "</html>" >> $HTML
 echo "================================================================================"
 
-for i in 1 2 4 8 16 32 64 128 256 512 1024
+for i in $RUNS
 do
         make_plot "${DATA_DIR}/${LABEL}-${i}.${SUFFIX}" | gnuplot
 done

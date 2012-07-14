@@ -13,7 +13,8 @@ random_latency ( int range ) {
   read( random_fd, &random_data, sizeof random_data );
   close( random_fd );
 
-  randomer = random_data * rand();
+  randomer = (24 * random_data) / (8 * rand());
+
   return abs(randomer % range);
 }
 
