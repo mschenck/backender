@@ -15,10 +15,13 @@ def_root (struct evhttp_request *req, void *arg) {
   int latency = random_latency( 300 ) + 300; 
   struct timeval pause = { 0, (latency * 1000) };
 
-  syslog( LOG_DEBUG, "Requested '%s' paused for %d milliseconds", req->uri, pause.tv_usec / 1000 );
   response = evtimer_new( ev_base, delayed_response, req );
-  evtimer_add( response, &pause );
 
+  if ( latency % 5 == 0 ) {
+    syslog( LOG_INFO, "Requested '%s' paused for %d milliseconds", req->uri, pause.tv_usec / 1000 );
+  }
+
+  evtimer_add( response, &pause );
 }
 
 void 
