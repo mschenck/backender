@@ -16,6 +16,7 @@ run_server(char* ip, short port, int timeout_s, int backlog) {
   struct event_config         *ev_cfg;
   struct evhttp               *ev_httpd;
   evutil_socket_t             socket_fd;
+  int                         worker;
 
   openlog("Backend", LOG_PID|LOG_NDELAY, LOG_LOCAL0);  
 
@@ -36,10 +37,9 @@ run_server(char* ip, short port, int timeout_s, int backlog) {
   socket_fd = create_socket(ip, port, timeout_s, backlog);
   evhttp_accept_socket(ev_httpd, socket_fd);
   
-  int w;
-  for (w = 0; w < WORKERS; w++) {
+  for (worker = 0; worker < WORKERS; worker++) {
     if (fork() == 0) {
-      printf("Starting worker %d ... ", w);
+      printf("Starting worker %d ... ", worker);
       worker(ev_base);
       printf("done.\n");
       exit(0);
