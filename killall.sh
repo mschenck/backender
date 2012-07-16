@@ -5,3 +5,5 @@ killall -9 backend
 
 echo "Remaining processes"
 ps ax | grep backend
+
+sleep 1
