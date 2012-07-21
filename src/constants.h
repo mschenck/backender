@@ -1,5 +1,5 @@
 
-#define SERVER_NAME "Michael Schenck server"
+#define SERVER_NAME "Backender server"
 
 #define HTML_CONTENT "text/html"
 #define JSON_CONTENT "text/json"
