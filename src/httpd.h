@@ -6,6 +6,10 @@
 #include <sys/socket.h>
 #include <netinet/tcp.h>
 #include <syslog.h>
+
+#include "constants.h"
+#include "socket.h"
+#include "routes.h"
 #include "httpd.c"
 
 int run_server(char* ip, short port, int timeout_s, int backlog);

@@ -1,8 +1,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-int
-random_latency ( int range ) {
+int random_latency ( int range ) {
   int random_fd, random_data, randomer;
 
   // Start time-based random
@@ -18,8 +17,7 @@ random_latency ( int range ) {
   return abs(randomer % range);
 }
 
-void
-generate_latency ( int base, int range ) {
+void generate_latency ( int base, int range ) {
   int latency = random_latency( range ) + base; 
   struct timespec *remaining;
   struct timespec pause = { 0, ( latency * 1000000 ) };

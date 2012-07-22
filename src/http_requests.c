@@ -1,9 +1,4 @@
-#include <event2/event.h>
-#include <event2/http.h>
-#include "constants.h"
-
-void
-http_response(struct evhttp_request *req, int http_code, char *msg,
+void http_response(struct evhttp_request *req, int http_code, char *msg,
 	char *content, char *content_type) {
 	
 	struct evkeyvalq *response_headers = evhttp_request_get_output_headers(req);

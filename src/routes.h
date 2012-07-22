@@ -2,6 +2,10 @@
 #include <event2/http.h>
 #include <syslog.h>
 #include <time.h>
+
+#include "constants.h"
+#include "http_requests.h"
+#include "latency.h"
 #include "routes.c"
 
 void def_root (struct evhttp_request *req, void *arg);

@@ -1,8 +1,4 @@
-#include <event2/event.h>
-
-
-evutil_socket_t
-create_socket(char* ip, short port, int timeout_s, int backlog) {
+evutil_socket_t create_socket(char* ip, short port, int timeout_s, int backlog) {
   struct sockaddr_in          sin;
   evutil_socket_t             socket_fd;
   

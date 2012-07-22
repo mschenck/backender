@@ -1,7 +1,3 @@
-#include "socket.h"
-#include "routes.h"
-#include "constants.h"
-
 int worker(struct event_base *ev_base) {
   event_reinit(ev_base);
   event_base_dispatch(ev_base);
@@ -10,8 +6,7 @@ int worker(struct event_base *ev_base) {
 /*
  * main loop - construct the event_base and start the loop
  */
-int
-run_server(char* ip, short port, int timeout_s, int backlog) {
+int run_server(char* ip, short port, int timeout_s, int backlog) {
   struct event_base           *ev_base;
   struct event_config         *ev_cfg;
   struct evhttp               *ev_httpd;
@@ -59,4 +54,3 @@ run_server(char* ip, short port, int timeout_s, int backlog) {
   closelog();
   return 0;
 }
-
