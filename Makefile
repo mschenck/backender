@@ -4,11 +4,11 @@ CC = gcc
 
 OS := $(shell uname)
 ifeq ($(OS), Darwin)
-  # Run MacOS commands 
+  # MacOS 
   LIBEVENT = /opt/tumblr/libevent-tumblr
   CFLAGS = -fno-strict-aliasing -O3 -march=core2 -msse4.1 -w -pipe -DNDEBUG -g -fwrapv -Wall -Wstrict-prototypes 
 else
-  # check for Linux and run other commands
+  # Linux
   LIBEVENT = /usr/local
   CFLAGS = -fno-strict-aliasing -O3 -w -pipe -DNDEBUG -g -fwrapv -Wall -Wstrict-prototypes -lrt
 endif
