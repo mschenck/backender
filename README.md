@@ -21,6 +21,4 @@ Only tested on Linux and Darwin
 
 **NOTE:** You want to fix the LIBEVENT path in the Makefile (and maybe gcc if it's not in your PATH)
 
-`
-
-`
+`make`
