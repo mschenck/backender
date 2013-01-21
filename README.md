@@ -13,7 +13,8 @@ Currently there are two route/response scenarios
 2. Any other URI path
     * Response string: `Not found .. ~_~`
     * Response code:   404
-    * Response timing: As fast as possible - no synthesized latency [**NOTE:**`Intended for use as a CONTROL variable`]
+    * Response timing: As fast as possible - no synthesized latency 
+    * __NOTE:__`Intended for use as a CONTROL variable`
 
 ## Building
 
